@@ -1,0 +1,94 @@
+version: '3.7'
+
+services:
+  master:
+    image: nobidev/bitnami-mariadb:10.9-debian-11
+    environment:
+      - MARIADB_ROOT_PASSWORD=root
+      - MARIADB_DATABASE=my_db
+      - MARIADB_REPLICATION_MODE=master
+      - MARIADB_REPLICATION_USER=repl_user
+      - MARIADB_REPLICATION_PASSWORD=repl_password
+    volumes:
+      - master_data:/bitnami/mariadb
+    networks:
+      - network
+    deploy:
+      placement:
+        constraints:
+          - node.labels.test == true
+
+  slave:
+    image: nobidev/bitnami-mariadb:10.9-debian-11
+    environment:
+      - MARIADB_MASTER_HOST=master
+      - MARIADB_MASTER_ROOT_PASSWORD=root
+      - MARIADB_REPLICATION_MODE=slave
+      - MARIADB_REPLICATION_USER=repl_user
+      - MARIADB_REPLICATION_PASSWORD=repl_password
+    volumes:
+      - slave_data:/bitnami/mariadb
+    networks:
+      - network
+    deploy:
+      placement:
+        constraints:
+          - node.labels.test == true
+  slave1:
+    image: nobidev/bitnami-mariadb:10.9-debian-11
+    environment:
+      - MARIADB_MASTER_HOST=master
+      - MARIADB_MASTER_ROOT_PASSWORD=root
+      - MARIADB_REPLICATION_MODE=slave
+      - MARIADB_REPLICATION_USER=repl_user
+      - MARIADB_REPLICATION_PASSWORD=repl_password
+    volumes:
+      - slave1_data:/bitnami/mariadb
+    networks:
+      - network
+    deploy:
+      placement:
+        constraints:
+          - node.labels.test == true
+  
+
+  pma:
+    image: nobidev/bitnami-phpmyadmin:5-debian-11
+    environment:
+      - PHPMYADMIN_ALLOW_ARBITRARY_SERVER=yes
+    networks:
+      - network
+      - traefik_public
+    deploy:
+      placement:
+        constraints:
+          - node.labels.test == true
+      labels:
+        - traefik.enable=true
+        - traefik.http.services.db-cluster-pma.loadbalancer.server.port=8080
+        - traefik.http.routers.db-cluster-pma.rule=Host(`db-cluster.hocdevops.tk`)
+        - traefik.http.routers.db-cluster-pma.service=db-cluster-pma
+        - traefik.http.routers.db-cluster-pma.tls.certresolver=leresolver
+        - traefik.http.routers.db-cluster-pma.entrypoints=websecure
+
+  test:
+    image: nobidev/db-test
+    environment:
+      - DATABASE_URL=mysql://root:root@master:3306/my_db
+    networks:
+      - network
+    deploy:
+      #replicas: 0
+      placement:
+        constraints:
+          - node.labels.test == true    
+
+networks:
+  network:
+  traefik_public:
+    external: true
+
+volumes:
+  master_data:
+  slave_data:
+  slave1_data:

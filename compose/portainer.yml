@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  agent:
+    image: portainer/agent
+    environment:
+      AGENT_CLUSTER_ADDR: tasks.agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /u01/docker/volumes:/u01/docker/volumes
+      - agent_data:/data
+    networks:
+      - portainer
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.platform.os == linux
+
+  portainer:
+    image: portainer/portainer
+    volumes:
+      - portainer_data:/data
+    networks:
+      - portainer
+      - traefik_public
+    ports:
+      - "9000:9000"
+    deploy:
+      mode: global
+      placement:
+        constraints:
+          - node.role == manager
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.portainer.rule=Host(`admin.hocdevops.tk`)
+        - traefik.http.services.portainer.loadbalancer.server.port=9000
+        - traefik.http.routers.portainer.entrypoints=websecure
+        - traefik.http.routers.portainer.tls=true
+        - traefik.http.routers.portainer.tls.certresolver=leresolver
+
+networks:
+  portainer:
+  traefik_public:
+    external: true
+
+volumes:
+  agent_data:
+  portainer_data:
