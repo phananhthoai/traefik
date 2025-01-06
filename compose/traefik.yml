@@ -34,11 +34,11 @@ services:
       - --providers.docker.network=traefik_public
       - --api
       - --api.dashboard=true
-      - --certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
+      #- --certificatesresolvers.leresolver.acme.caserver=https://acme-v02.api.letsencrypt.org/directory
       # update your email here
-      - --certificatesresolvers.leresolver.acme.email=kenkukhanh@gmail.com
+      #- --certificatesresolvers.leresolver.acme.email=kenkukhanh@gmail.com
       # Make sure the this file is available and permission is set correctly
-      - --certificatesresolvers.leresolver.acme.storage=/data/acme.json
+      #- --certificatesresolvers.leresolver.acme.storage=/data/acme.json
       # - --certificatesresolvers.leresolver.acme.tlschallenge=true
     ports:
       - 80:80
@@ -61,7 +61,7 @@ services:
         # Dashboard
         - traefik.enable=true
         # Change the host url here
-        - traefik.http.routers.traefik.rule=Host(`traefik.hocdevops.tk`)
+        - traefik.http.routers.traefik.rule=Host(`traefik.hocdevops.online`)
         - traefik.http.routers.traefik.service=api@internal
         - traefik.http.services.traefik.loadbalancer.server.port=8080
         - traefik.http.routers.traefik.tls.certresolver=leresolver
@@ -88,7 +88,7 @@ services:
       labels:
         - traefik.enable=true
         # Change the host url here
-        - traefik.http.routers.my-app.rule=Host(`whoami.hocdevops.tk`)
+        - traefik.http.routers.my-app.rule=Host(`whoami.hocdevops.online`)
         - traefik.http.services.my-app.loadbalancer.server.port=8082
         - traefik.http.routers.my-app.entrypoints=websecure
         - traefik.http.routers.my-app.tls=true
