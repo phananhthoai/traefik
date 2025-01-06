@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   #dsock:
-  #  image: elofun/nginx
+  #  image: 
   #  networks:
   #    - dsock
   #  volumes:
