@@ -13,23 +13,6 @@ common:
   waitReady:
     image: harbor.elofun.net/core/wait-for-port
     tag: 0.0.2
-partner:
-  smsApiHost: 10.58.244.139:8080
-  notificationApiHost: 10.58.244.139:8080
-  addMoneyApiHost: 10.58.244.214:8084
-  addVoucherApiHost: 10.58.244.139:8080
-  addVoucherClientId: "game_elf"
-  addVoucherClientSecret: "123456"
-  addVoucherProcessCode: "ELOFUN"
-  voucherLuckyApiHost: "devevs.urbox.vn"
-  voucherLuckyAppId: "5000011"
-  voucherLuckyAppSecret: "8691cd029d43134fb8da36149e386uni"
-  backlistApiHost: 10.58.244.139:8080
-  backlistApiVtmClientId: "game_elofun"
-  backlistApiVtmSecret: "123456a@"
-  whitelistApiHost: staging-cdcn-customer-support-service-api-java.staging:8080
-  customerStatusApiHost: 10.58.244.139:8080
-  outboundProxy: 10.60.135.36:8800
 nats:
   image: nats:alpine
   replicaCount: 3
