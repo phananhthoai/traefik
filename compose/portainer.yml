@@ -34,7 +34,7 @@ services:
           - node.role == manager
       labels:
         - traefik.enable=true
-        - traefik.http.routers.portainer.rule=Host(`admin.hocdevops.tk`)
+        - traefik.http.routers.portainer.rule=Host(`admin.hocdevops.online`)
         - traefik.http.services.portainer.loadbalancer.server.port=9000
         - traefik.http.routers.portainer.entrypoints=websecure
         - traefik.http.routers.portainer.tls=true
