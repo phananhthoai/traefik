@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   master:
-    image: nobidev/bitnami-mariadb:10.9-debian-11
+    image: bitnami-mariadb:10.9-debian-11
     environment:
       - MARIADB_ROOT_PASSWORD=root
       - MARIADB_DATABASE=my_db
@@ -19,7 +19,7 @@ services:
           - node.labels.test == true
 
   slave:
-    image: nobidev/bitnami-mariadb:10.9-debian-11
+    image: bitnami-mariadb:10.9-debian-11
     environment:
       - MARIADB_MASTER_HOST=master
       - MARIADB_MASTER_ROOT_PASSWORD=root
@@ -35,7 +35,7 @@ services:
         constraints:
           - node.labels.test == true
   slave1:
-    image: nobidev/bitnami-mariadb:10.9-debian-11
+    image: bitnami-mariadb:10.9-debian-11
     environment:
       - MARIADB_MASTER_HOST=master
       - MARIADB_MASTER_ROOT_PASSWORD=root
@@ -53,7 +53,7 @@ services:
   
 
   pma:
-    image: nobidev/bitnami-phpmyadmin:5-debian-11
+    image: bitnami-phpmyadmin:5-debian-11
     environment:
       - PHPMYADMIN_ALLOW_ARBITRARY_SERVER=yes
     networks:
