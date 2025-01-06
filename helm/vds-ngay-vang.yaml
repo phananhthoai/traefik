@@ -1,0 +1,50 @@
+fullnameOverride: vds-ngay-vang
+common:
+  clusterDomain: cluster.local
+  registrySecret: eyJhdXRocyI6eyJoYXJib3IuZWxvZnVuLm5ldCI6eyJ1c2VybmFtZSI6InJvYm90JGRldmVsb3AiLCJwYXNzd29yZCI6InZKYXBwQUVHOG1GYjQyMG5ZYTM3d2dMUjJPMms2Yk9aIiwiYXV0aCI6ImNtOWliM1FrWkdWMlpXeHZjRHAyU21Gd2NFRkZSemh0Um1JME1qQnVXV0V6TjNkblRGSXlUekpyTm1KUFdnPT0ifX19
+  db_url: mysql://dev:elofun@mariadb.vds-ngay-vang-dev.svc.cluster.local:3306/vds-ngay-vang-dev
+  redis_url: redis-redis-cluster-0.redis-redis-cluster-headless:6379;redis-redis-cluster-1.redis-redis-cluster-headless:6379;redis-redis-cluster-2.redis-redis-cluster-headless:6379
+  redis_password: elofun
+  redis_prefix: elofun
+  nats_token: f384b575-6df5-46c1-8f25-bb874661db40
+  stage: dev
+  webUrl: https://vds-ngay-vang.hocdevops.me
+  serviceUrl: https://vds-ngay-vang.hocdevops.me
+  waitReady:
+    image: harbor.elofun.net/core/wait-for-port
+    tag: 0.0.2
+partner:
+  smsApiHost: 10.58.244.139:8080
+  notificationApiHost: 10.58.244.139:8080
+  addMoneyApiHost: 10.58.244.214:8084
+  addVoucherApiHost: 10.58.244.139:8080
+  addVoucherClientId: "game_elf"
+  addVoucherClientSecret: "123456"
+  addVoucherProcessCode: "ELOFUN"
+  voucherLuckyApiHost: "devevs.urbox.vn"
+  voucherLuckyAppId: "5000011"
+  voucherLuckyAppSecret: "8691cd029d43134fb8da36149e386uni"
+  backlistApiHost: 10.58.244.139:8080
+  backlistApiVtmClientId: "game_elofun"
+  backlistApiVtmSecret: "123456a@"
+  whitelistApiHost: staging-cdcn-customer-support-service-api-java.staging:8080
+  customerStatusApiHost: 10.58.244.139:8080
+  outboundProxy: 10.60.135.36:8800
+nats:
+  image: nats:alpine
+  replicaCount: 3
+web:
+  image: harbor.elofun.net/vds-ngay-vang/web:0.0.51-dev
+cms:
+  image: harbor.elofun.net/vds-ngay-vang/cms:0.0.16-dev
+wsgw:
+  image: harbor.elofun.net/vds-ngay-vang/wsgw:0.0.4-dev
+services:
+  image: harbor.elofun.net/vds-ngay-vang/services:0.0.39-dev
+  allowAnonymous: true
+  gameAuroraMaxDigit: "1000"
+lb:
+  domain: vds-ngay-vang.hocdevops.me
+  image: harbor.elofun.net/core/nginx-proxy:0.0.1
+scheduler:
+  image: harbor.elofun.net/vds-ngay-vang/services:0.0.39-dev
