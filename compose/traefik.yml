@@ -1,26 +1,26 @@
 version: "3.3"
 
 services:
-  dsock:
-    image: elofun/nginx
-    networks:
-      - dsock
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      CONF: |
-        user root;
-        stream {
-          server {
-            listen 9000;
-            proxy_pass unix:/var/run/docker.sock;
-          }
-        }
-    deploy: 
-      mode: global    
-      placement:
-        constraints:
-          - node.role == manager
+  #dsock:
+  #  image: elofun/nginx
+  #  networks:
+  #    - dsock
+  #  volumes:
+  #    - /var/run/docker.sock:/var/run/docker.sock
+  #  environment:
+  #    CONF: |
+  #      user root;
+  #      stream {
+  #        server {
+  #          listen 9000;
+  #          proxy_pass unix:/var/run/docker.sock;
+  #        }
+  #      }
+  #  deploy: 
+  #    mode: global    
+  #    placement:
+  #      constraints:
+  #        - node.role == manager
   traefik:
     image: traefik
     command:
@@ -28,7 +28,7 @@ services:
       - --entrypoints.web.address=:80
       - --entrypoints.websecure.address=:443
       - --providers.docker
-      - --providers.docker.endpoint=tcp://dsock:9000
+  #    - --providers.docker.endpoint=tcp://dsock:9000
       - --providers.docker.exposedbydefault=false
       - --providers.docker.swarmmode=true
       - --providers.docker.network=traefik_public
@@ -47,7 +47,7 @@ services:
       - public
       - dsock
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      #- /var/run/docker.sock:/var/run/docker.sock:ro
       # Make sure the volume folder is created
       - traefik-data:/data
     deploy:
