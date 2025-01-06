@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
   master:
@@ -66,7 +66,7 @@ services:
       labels:
         - traefik.enable=true
         - traefik.http.services.db-cluster-pma.loadbalancer.server.port=8080
-        - traefik.http.routers.db-cluster-pma.rule=Host(`db-cluster.hocdevops.tk`)
+        - traefik.http.routers.db-cluster-pma.rule=Host(`db-cluster.hocdevops.me`)
         - traefik.http.routers.db-cluster-pma.service=db-cluster-pma
         - traefik.http.routers.db-cluster-pma.tls.certresolver=leresolver
         - traefik.http.routers.db-cluster-pma.entrypoints=websecure

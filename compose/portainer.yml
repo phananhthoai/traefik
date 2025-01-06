@@ -26,6 +26,7 @@ services:
       - traefik_public
     ports:
       - "9000:9000"
+      - "9443:9443"
     deploy:
       mode: global
       placement:
